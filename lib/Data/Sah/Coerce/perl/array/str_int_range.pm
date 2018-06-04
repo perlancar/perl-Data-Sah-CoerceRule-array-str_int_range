@@ -9,9 +9,9 @@ use warnings;
 
 sub meta {
     +{
-        v => 2,
+        v => 3,
         enable_by_default => 0,
-        might_die => 1,
+        might_fail => 1,
         prio => 60, # a bit lower than normal
     };
 }
@@ -29,8 +29,8 @@ sub coerce {
         "",
         "do { ",
         "my (\$int1, \$int2) = $dt =~ /\\A\\s*([+-]?\\d+)\\s*(?:-|\\.\\.)\\s*([+-]?\\d+)\\s*\\z/; ",
-        "if (\$int2 - \$int1 > 1_000_000) { die \"Range too big\" } ",
-        "[\$int1+0 .. \$int2+0] ",
+        "if (\$int2 - \$int1 > 1_000_000) { ['Range too big'] } ",
+        "else { [undef, [\$int1+0 .. \$int2+0]] } ",
         "}",
     );
 
